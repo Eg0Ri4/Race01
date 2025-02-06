@@ -1,5 +1,4 @@
 #include "minilibmx.h"
-#include <stdlib.h>
 
 char *mx_strnew(int size) {
     if (size < 0) return NULL;

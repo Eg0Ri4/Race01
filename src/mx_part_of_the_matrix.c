@@ -1,4 +1,4 @@
-#include "part_of_the_matrix.h"
+#include "minilibmx.h"
 
 void mx_print_equation(char *operand1, char *operation, char *operand2, char *result) 
 {
