@@ -1,11 +1,12 @@
 CFLAGS = -std=c11 -Wall -Wextra -Werror -Wpedantic -Iinc
+FILE_NAME=way_home
 
-all: way_home
+all: $(FILE_NAME)
 
-way_home:
-	clang  $(CFLAGS) src/*.c -o read_file
+$(FILE_NAME):
+ clang  $(CFLAGS) src/*.c -o $(FILE_NAME)
 
 clean:
-	rm -f way_home	
+ rm -f  $(FILE_NAME)
 
 re: clean all
