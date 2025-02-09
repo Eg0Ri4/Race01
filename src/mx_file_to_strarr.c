@@ -1,7 +1,7 @@
 #include "minilibmx.h"
 
 char **mx_file_to_strarr(const char *filename) {
-    int f = open(filename, O_RDONLY);
+    int f = open(mx_strjoin("maps/", filename), O_RDONLY);
     if (f < 0) return NULL;
 
     char c;
