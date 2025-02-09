@@ -27,41 +27,6 @@ Point dequeue(Queue *q) {
     return p;
 }
 
-int bfs(char maze[MAX_ROWS][MAX_COLS], int rows, int cols, Point start, Point end) {
-    int dx[] = {-1, 1, 0, 0};
-    int dy[] = {0, 0, -1, 1};
-    int dist[MAX_ROWS][MAX_COLS];
-    for (int i = 0; i < rows; i++) {
-        for (int j = 0; j < cols; j++) {
-            dist[i][j] = -1;
-        }
-    }
-
-    Queue q;
-    initQueue(&q);
-    enqueue(&q, start);
-    dist[start.x][start.y] = 0;
-
-    while (!isEmpty(&q)) {
-        Point current = dequeue(&q);
-        if (current.x == end.x && current.y == end.y) {
-            return dist[current.x][current.y];
-        }
-
-        for (int i = 0; i < 4; i++) {
-            int nx = current.x + dx[i];
-            int ny = current.y + dy[i];
-
-            if (nx >= 0 && nx < rows && ny >= 0 && ny < cols && maze[nx][ny] == '.' && dist[nx][ny] == -1) {
-                dist[nx][ny] = dist[current.x][current.y] + 1;
-                enqueue(&q, (Point){nx, ny});
-            }
-        }
-    }
-
-    return -1;
-}
-
 int main(int argc, char *argv[]) {
     if (argc != 6) {
         mx_printerr("usage: ./way_home [file_name] [x1] [y1] [x2] [y2]\n");
@@ -108,7 +73,13 @@ int main(int argc, char *argv[]) {
 
     Point start = {x1, y1};
     Point end = {x2, y2};
-    int distance = bfs(maze, rows, cols, start, end);
+    Point farthest_points[MAX_ROWS * MAX_COLS];
+    int farthest_count = 0;
+    int max_distance = 0;
+    Point path[MAX_ROWS * MAX_COLS];
+    int path_length = 0;
+
+    int distance = mx_bfs(maze, rows, cols, start, end, path, &path_length, farthest_points, &farthest_count, &max_distance);
 
     if (distance != -1) {
         mx_printstr("dist=");
