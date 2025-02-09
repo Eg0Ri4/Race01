@@ -6,6 +6,19 @@
 #include <unistd.h>
 #include <fcntl.h>
 
+typedef struct {
+    int x, y;
+} Point;
+
+typedef struct {
+    Point data[MAX_ROWS * MAX_COLS];
+    int front, rear;
+} Queue;
+
+typedef struct {
+    int x, y;
+} Point;
+
 int mx_strlen(const char *s);
 char *mx_strcpy(char *dst, const char *src);
 char *mx_strncpy(char *dst, const char *src, int len);
@@ -29,8 +42,5 @@ char *mx_strjoin(char const *s1, char const *s2);
 char *mx_strdup(const char *str);
 char **mx_file_to_strarr(const char *filename);
 
-typedef struct {
-    int x, y;
-} Point;
 
 
