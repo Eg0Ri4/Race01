@@ -90,6 +90,7 @@ int main(int argc, char *argv[]) {
     int path_length = 0;
 
     int distance = mx_bfs(maze, rows, cols, start, end, path, &path_length, farthest_points, &farthest_count, &max_distance);
+    mx_file_to_starr(maze);
 
     if (distance == -1) {
         mx_printerr("route not found\n");
