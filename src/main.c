@@ -5,15 +5,6 @@
 #define MAX_ROWS 100
 #define MAX_COLS 100
 
-typedef struct {
-    int x, y;
-} Point;
-
-typedef struct {
-    Point data[MAX_ROWS * MAX_COLS];
-    int front, rear;
-} Queue;
-
 void initQueue(Queue *q) {
     q->front = q->rear = -1;
 }
