@@ -5,6 +5,7 @@
 #include <stdbool.h>
 #include <unistd.h>
 #include <fcntl.h>
+#include "bfs.h"
 
 typedef struct {
     int x, y;
