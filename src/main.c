@@ -13,11 +13,6 @@ int main(int argc, char *argv[]) {
         return 1;
     }
 
-    int x1 = mx_atoi(argv[2]);
-    int y1 = mx_atoi(argv[3]);
-    int x2 = mx_atoi(argv[4]);
-    int y2 = mx_atoi(argv[5]);
-
     for (int i = 2; i < 6; i++) {
         for (int j = 0; argv[i][j] != '\0'; j++) {
             if (!mx_isdigit(argv[i][j]) && argv[i][j] != '-') {
@@ -28,13 +23,14 @@ int main(int argc, char *argv[]) {
     }
 
     char **maze = mx_file_to_strarr(argv[1]);
-    if(maze == NULL){ 
+    if (maze == NULL) {
         mx_printerr("map does not exist\n");
         return 1;
-    }else if(maze[0][0] == 'e'){
+    } else if (maze[0][0] == 'e') {
         mx_printerr("map error\n");
         return 1;
     }
+
     int rows = 0;
     while (maze[rows] != NULL) {
         rows++;
@@ -43,12 +39,17 @@ int main(int argc, char *argv[]) {
 
     if (rows == 0 || cols == 0) {
         mx_printerr("error\n");
+        free_maze(maze, rows);
         return 1;
     }
 
-    if (x1 < 0 || y1 < 0 || x2 < 0 ||
-        y2 < 0 || x1 >= cols || y1 >= rows ||
-        x2 >= cols || y2 >= rows) {
+    int x1 = mx_atoi(argv[2]);
+    int y1 = mx_atoi(argv[3]);
+    int x2 = mx_atoi(argv[4]);
+    int y2 = mx_atoi(argv[5]);
+
+    if (x1 < 0 || y1 < 0 || x2 < 0 || y2 < 0 ||
+        x1 >= cols || y1 >= rows || x2 >= cols || y2 >= rows) {
         mx_printerr("points are out of map range\n");
         free_maze(maze, rows);
         return 1;
