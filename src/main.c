@@ -12,6 +12,7 @@ void fill_maze(const char *file_name, char maze[MAX_ROWS][MAX_COLS], int *rows, 
     *rows = 0;
     *cols = 0;
 
+
     while (file_data[*rows] != NULL && *rows < MAX_ROWS) {
         int current_cols = mx_strlen(file_data[*rows]);
         if (current_cols > *cols) {
@@ -23,6 +24,7 @@ void fill_maze(const char *file_name, char maze[MAX_ROWS][MAX_COLS], int *rows, 
         }
         (*rows)++;
     }
+
 
     for (int i = 0; file_data[i] != NULL; i++) {
         free(file_data[i]);
@@ -52,7 +54,7 @@ int main(int argc, char *argv[]) {
 
     char maze[MAX_ROWS][MAX_COLS];
     int rows = 0, cols = 0;
-    fill_maze("maze.csv", maze, &rows, &cols);
+    fill_maze("maps/maze.csv", maze, &rows, &cols);
 
     if (rows == 0 || cols == 0) {
         mx_printerr("error: file is empty\n");
