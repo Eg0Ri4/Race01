@@ -88,7 +88,11 @@ int main(int argc, char *argv[]) {
         free_maze(maze, rows);
         return 1;
     } else {
-        printf("%d\n", distance);
+        mx_printstr("dist=");
+        mx_printint(max_distance);
+        mx_printstr("\nexit=");
+        mx_printint(distance);
+        mx_printchar('\n');
     }
 
     if (path) {
