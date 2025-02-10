@@ -1,4 +1,7 @@
 #include "minilibmx.h"
+#include <fcntl.h>
+#include <stdlib.h>
+#include <unistd.h>
 
 char **mx_file_to_strarr(const char *filename) {
     int f = open(filename, O_RDONLY);
@@ -6,22 +9,26 @@ char **mx_file_to_strarr(const char *filename) {
 
     char c;
     char *buffer = mx_strnew(0);
-    char **result = malloc(sizeof(char *) * 100); 
+    char **result = malloc(sizeof(char *) * 100); // 100 строк
     int line_count = 0;
 
     while (read(f, &c, 1) > 0) {
-        if(c == ',' || (mx_isspace(c) && c != '\n')) continue;
+        if (c == ',' || (mx_isspace(c) && c != '\n')) continue;
         if (c == '\n') {
             result[line_count++] = buffer; 
             buffer = mx_strnew(0);         
-        } else{
+        } else {
             char temp[2] = {c, '\0'};
-            buffer = mx_strjoin(buffer, temp);
+            char *new_buffer = mx_strjoin(buffer, temp);
+            free(buffer);
+            buffer = new_buffer;
         }
     }
 
     if (mx_strlen(buffer) > 0) { 
         result[line_count++] = buffer;
+    } else {
+        free(buffer);
     }
 
     result[line_count] = NULL;

@@ -7,18 +7,7 @@
 #include <fcntl.h>
 #include "bfs.h"
 
-typedef struct {
-    int x, y;
-} Point;
 
-typedef struct {
-    Point data[MAX_ROWS * MAX_COLS];
-    int front, rear;
-} Queue;
-
-typedef struct {
-    int x, y;
-} Point;
 
 int mx_strlen(const char *s);
 char *mx_strcpy(char *dst, const char *src);
