@@ -9,24 +9,24 @@
 #define MAX_ROWS 50
 #define MAX_COLS 50
 
-// Структура для хранения координат точки
+
 typedef struct {
     int x, y;
 } Point;
 
-// Структура для очереди (состоящая из узлов)
+
 typedef struct {
     Point point;
     int distance;
 } QueueNode;
 
-// Структура для самой очереди
+
 typedef struct {
     QueueNode nodes[MAX_ROWS * MAX_COLS];
     int front, rear;
 } Queue;
 
-// Объявления функций, использующих эти структуры
+
 void enqueue(Queue *q, Point p, int distance);
 QueueNode dequeue(Queue *q);
 bool is_empty(Queue *q);
