@@ -30,7 +30,7 @@ typedef struct {
 void enqueue(Queue *q, Point p, int distance);
 QueueNode dequeue(Queue *q);
 bool is_empty(Queue *q);
-int mx_bfs(char maze[MAX_ROWS][MAX_COLS], int rows, int cols, Point start, Point end,
+int mx_bfs(char **maze, int rows, int cols, Point start, Point end,
            Point **path, int *path_length, Point *farthest_points, int *farthest_count, int *max_distance);
 
 #endif

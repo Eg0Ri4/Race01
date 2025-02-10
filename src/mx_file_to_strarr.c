@@ -17,11 +17,14 @@ char **mx_file_to_strarr(const char *filename) {
         if (c == '\n') {
             result[line_count++] = buffer; 
             buffer = mx_strnew(0);         
-        } else {
+        }else if(c == '#' || c == '.'){
             char temp[2] = {c, '\0'};
             char *new_buffer = mx_strjoin(buffer, temp);
             free(buffer);
             buffer = new_buffer;
+        }else{
+            result[0][0] =  'e';
+            return result;
         }
     }
 

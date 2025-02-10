@@ -1,9 +1,11 @@
 #include "minilibmx.h"
+
 void enqueue(Queue *q, Point p, int distance) {
     q->nodes[q->rear].point = p;
     q->nodes[q->rear].distance = distance;
     q->rear++;
 }
+
 
 QueueNode dequeue(Queue *q) {
     return q->nodes[q->front++];
@@ -13,29 +15,30 @@ bool is_empty(Queue *q) {
     return q->front == q->rear;
 }
 
-
-int dx[] = {-1, 1, 0, 0};
-int dy[] = {0, 0, -1, 1};
-
-
-int mx_bfs(char maze[MAX_ROWS][MAX_COLS], int rows, int cols, Point start, Point end, 
+int dx[] = {0, 0, -1, 1};  
+int dy[] = {-1, 1, 0, 0}; 
+ 
+int mx_bfs(char **maze, int rows, int cols, Point start, Point end, 
            Point **path, int *path_length, Point *farthest_points, int *farthest_count, int *max_distance) {
-    int dist[MAX_ROWS][MAX_COLS];
-    Point parent[MAX_ROWS][MAX_COLS];
-    Queue queue = { .front = 0, .rear = 0 };
-    
+
+    int **dist = (int **)malloc(rows * sizeof(int *));
+    Point **parent = (Point **)malloc(rows * sizeof(Point *));
+    if (!dist || !parent) return -1; 
 
     for (int i = 0; i < rows; i++) {
+        dist[i] = (int *)malloc(cols * sizeof(int));
+        parent[i] = (Point *)malloc(cols * sizeof(Point));
+        if (!dist[i] || !parent[i]) return -1;
         for (int j = 0; j < cols; j++) {
             dist[i][j] = -1;
-            parent[i][j].x = -1;
-            parent[i][j].y = -1;
+            parent[i][j] = (Point){-1, -1}; 
         }
     }
 
-
+    Queue queue = { .front = 0, .rear = 0 };
     dist[start.y][start.x] = 0;
     enqueue(&queue, start, 0);
+
     *max_distance = 0;
     *farthest_count = 0;
 
@@ -43,7 +46,6 @@ int mx_bfs(char maze[MAX_ROWS][MAX_COLS], int rows, int cols, Point start, Point
         QueueNode node = dequeue(&queue);
         Point p = node.point;
         int d = node.distance;
-
 
         if (d > *max_distance) {
             *max_distance = d;
@@ -54,13 +56,12 @@ int mx_bfs(char maze[MAX_ROWS][MAX_COLS], int rows, int cols, Point start, Point
             (*farthest_count)++;
         }
 
-
         for (int i = 0; i < 4; i++) {
-            int nx = p.x + dx[i];
-            int ny = p.y + dy[i];
+            int nx = p.x + dx[i];  
+            int ny = p.y + dy[i];  
 
             if (nx >= 0 && nx < cols && ny >= 0 && ny < rows && 
-                maze[ny][nx] == '.' && dist[ny][nx] == -1) {
+                maze[ny][nx] != '#' && dist[ny][nx] == -1) {
                 
                 dist[ny][nx] = d + 1;
                 parent[ny][nx] = p;
@@ -68,20 +69,29 @@ int mx_bfs(char maze[MAX_ROWS][MAX_COLS], int rows, int cols, Point start, Point
             }
         }
     }
+
     if (dist[end.y][end.x] == -1) {
         *path_length = 0;
-        return -1;
+        return -1; 
     }
 
-
     *path_length = dist[end.y][end.x] + 1;
-    *path = malloc((*path_length) * sizeof(Point));
+    *path = (Point *)malloc((*path_length) * sizeof(Point));
 
     Point current = end;
     for (int i = *path_length - 1; i >= 0; i--) {
         (*path)[i] = current;
-        current = parent[current.y][current.x];
+        current = parent[current.y][current.x]; 
     }
-    
-    return dist[end.y][end.x];
+
+    int final_distance = dist[end.y][end.x];
+
+    for (int i = 0; i < rows; i++) {
+        free(dist[i]);
+        free(parent[i]);
+    }
+    free(dist);
+    free(parent);
+
+    return final_distance;
 }
