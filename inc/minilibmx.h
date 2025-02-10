@@ -31,6 +31,6 @@ char *mx_strcat(char *s1, const char *s2);
 char *mx_strjoin(char const *s1, char const *s2);
 char *mx_strdup(const char *str);
 char **mx_file_to_strarr(const char *filename);
-
+void output_to_file(char **maze, Point *fp, Point *path, int row, int cols);
 
 
