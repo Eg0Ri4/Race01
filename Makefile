@@ -1,13 +1,30 @@
-CFLAGS = -std=c11 -Wall -Wextra -Werror -Wpedantic -Iinc
-FILE_NAME= way_home
+CC = clang
+CFLAGS = -std=c11 -Wall -Wextra -Werror -Wpedantic
 
-all: $(FILE_NAME)
+SRC_DIR = src
+OBJ_DIR = obj
 
-$(FILE_NAME):
-	clang $(CFLAGS) src/*.c -o $(FILE_NAME)
+SRC = $(wildcard $(SRC_DIR)/*.c)
+OBJ = $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRC))
+
+NAME = way_home
+
+all: $(NAME)
+
+$(OBJ_DIR):
+	mkdir -p $(OBJ_DIR)
+
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(OBJ_DIR)
+	$(CC) $(CFLAGS) -c $< -o $@
+
+$(NAME): $(OBJ)
+	$(CC) $(CFLAGS) $^ -o $@
+	rm -rf $(OBJ_DIR)
 
 clean:
-	rm -f $(FILE_NAME)
-	rm -f path.txt
+	rm -rf $(OBJ_DIR)
 
-re: clean all
+uninstall: clean
+	rm -f $(NAME)
+
+reinstall: uninstall all
